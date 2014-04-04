@@ -6,7 +6,7 @@ Chess, written in Ruby.
 
 1. `gem install colorize`
 2. `ruby chess.rb`
-3. Use `WASD` keys to move. `Space` to select/place a piece. `q` to exit.
+3. Use `wasd` keys to move. `Space` to select/place a piece. `q` to exit.
 
 ## Future add-ons
 
