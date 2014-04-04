@@ -40,7 +40,6 @@ class Board
   end
 
   def show_board
-    # system "clear"
     user_board = Array.new(8) { Array.new(8, "_") }
     self.board.each_with_index do |row, r_idx|
       row.each_with_index do |tile, c_idx|

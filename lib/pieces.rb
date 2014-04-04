@@ -25,7 +25,6 @@ class Piece
     in_bounds?(potential_move) && (@board[potential_move].nil? ||
                                    @board[potential_move].color != self.color)
   end
-
 end
 
 class SlidingPiece < Piece

@@ -2,9 +2,9 @@
 
 require "colorize"
 require 'io/console'
-require './player'
-require './pieces'
-require './board'
+require './lib/player'
+require './lib/pieces'
+require './lib/board'
 
 class Game
   attr_accessor :turn, :row, :col, :selected_piece
@@ -20,7 +20,7 @@ class Game
     valid_keys = ["w", "a", "s", "d", "q", " ", "`", "r"]
     input = nil
     @board.print_board
-    puts "Use WASD keys to move. space to select/place piece, ` to save"
+    puts "Use WASD keys to move. Space to select/place piece. ` to save."
     @selected_piece = nil
     # until self.won?
     while true
@@ -43,7 +43,6 @@ class Game
         @board.print_board
         puts "Use WASD keys to move. space to select/place a piece, ` to save"
       rescue  Exception => e
-        p e
         puts "Invalid move. Please try again."
         raise e
         retry
@@ -93,9 +92,7 @@ class Game
   end
 
   def try_piece(imaginary_board, piece)
-    p "I went into try piece"
     if piece.show_possible_moves.any? { |move| move == [@row, @col] } && imaginary_board.board[@row][@col].nil?
-      p "thing 1"
       imaginary_board[piece.location] = nil
       imaginary_board.board[@row][@col] = piece       # update the board with newly placed piece
       piece.location = [@row, @col]
@@ -105,7 +102,6 @@ class Game
       @selected_piece = nil
       self.switch_turn
     elsif piece.show_possible_moves.any? { |move| move == [@row, @col] } && !imaginary_board.board[@row][@col].nil?
-      p "thing 2"
       kill_piece([@row, @col])
       imaginary_board[piece.location] = nil
       imaginary_board.board[@row][@col] = piece       # update the board with newly placed piece
@@ -116,23 +112,17 @@ class Game
       @selected_piece = nil
       self.switch_turn
     else
-      p "This is here"
       raise "Invalid move. Please try again."
       piece = nil
     end
   end
 
-  # def move_piece(board_to_update, piece)
-  # end
-
   def get_out_of_check
-    p "Check."
     @test_board = @board.dup
     @select_piece = @selected_piece.dup
     @select_piece.board = @test_board
     escape_possible?
     try_piece(@test_board, @select_piece)
-    p "This happened"
     unless @test_board.game.check?
       @board = @test_board
       @selected_piece = @select_piece
@@ -144,7 +134,6 @@ class Game
     @board[location] = nil
   end
 
-  # FIX THIS!!!!
   # def won?
   #   if check? #&& !escape_possible?
   #     return true
@@ -180,7 +169,6 @@ class Game
     false
   end
 
-  # FIX THIS!
   # def escape_possible?
   #   @test_board.board.each do |row|
   #     row.each do |tile|
